@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff8ef" />
+    <title>A Little Birthday Magic</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700;800&family=Lora:wght@400;500&family=Monsieur+La+Doulaise&display=swap");
+      :root {
+        --ink: #40352f;
+        --pink: #a75d70;
+        --yellow: #ffe08a;
+        --lilac: #c8b5f4;
+        --cream: #eee5d6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: #eee5d6;
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+      }
+      body:before,
+      body:after {
+        display: none;
+      }
+      .page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 54px 20px;
+        position: relative;
+      }
+      .card {
+        width: min(100%, 760px);
+        text-align: center;
+        padding: 4px;
+        background: #090909;
+        border: 0;
+        border-radius: 38px;
+        box-shadow: none;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-content {
+        padding: 28px 42px 40px;
+        background: #fffaf3;
+        text-align: center;
+        border-radius: 34px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 15px;
+        background: rgba(255, 213, 107, 0.15);
+        border: 1px solid rgba(255, 213, 107, 0.25);
+        border-radius: 99px;
+        color: #ffe49b;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      h1 {
+        font:
+          600 clamp(2.4rem, 7vw, 3.7rem)/1.02 "Cormorant Garamond",
+          serif;
+        letter-spacing: -0.035em;
+        margin: 12px 0 24px;
+        color: #40352f;
+      }
+      h1 span {
+        display: block;
+        margin-top: 0.1em;
+        color: #a75d70;
+        font:
+          400 clamp(3.5rem, 9vw, 5.4rem)/1.12 "Monsieur La Doulaise",
+          cursive;
+        font-style: normal;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        font:
+          400 clamp(1.05rem, 2.35vw, 1.2rem)/1.85 "Lora",
+          serif;
+        letter-spacing: 0.012em;
+        color: #6d5e52;
+        max-width: 440px;
+        margin: 0 auto;
+      }
+      .cake-slot {
+        height: 142px;
+        margin: 18px auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cake-art {
+        display: block;
+        width: 78px;
+        aspect-ratio: 303/456;
+        margin: 0;
+        object-fit: cover;
+        object-position: center;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 28px;
+      }
+      button {
+        font:
+          700 15px "DM Sans",
+          sans-serif;
+        border: 0;
+        border-radius: 99px;
+        padding: 15px 23px;
+        cursor: pointer;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      button:hover {
+        transform: translateY(-2px);
+      }
+      button:focus-visible {
+        outline: 3px solid #8064ba;
+        outline-offset: 4px;
+      }
+      .primary {
+        background: #a75d70;
+        color: #fffaf5;
+        box-shadow: 0 8px 20px rgba(82, 44, 53, 0.18);
+        min-width: 192px;
+      }
+      .primary:hover {
+        box-shadow: 0 12px 24px #0006;
+      }
+      .secondary {
+        background: #fffaf3;
+        color: #51473f;
+        border: 1px solid #e4d8c8;
+      }
+      .note {
+        height: 20px;
+        margin: 14px 0 0;
+        font-size: 13px;
+        color: #897a6c;
+      }
+      .sparkle {
+        position: absolute;
+        color: #edb946;
+        font-size: 24px;
+        animation: twinkle 2s ease-in-out infinite;
+      }
+      .s1 {
+        top: 17%;
+        left: 12%;
+      }
+      .s2 {
+        top: 23%;
+        right: 13%;
+        font-size: 18px;
+        animation-delay: 0.6s;
+      }
+      .s3 {
+        bottom: 18%;
+        left: 17%;
+        font-size: 17px;
+        animation-delay: 1s;
+      }
+      .s4 {
+        bottom: 16%;
+        right: 16%;
+        animation-delay: 0.3s;
+      }
+      @keyframes twinkle {
+        50% {
+          opacity: 0.35;
+          transform: scale(0.75) rotate(20deg);
+        }
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 3;
+      }
+      footer {
+        position: absolute;
+        bottom: 18px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: #897a6c;
+        font-size: 12px;
+      }
+      @media (max-width: 560px) {
+        .page {
+          padding: 28px 16px 48px;
+        }
+        .card {
+          padding: 4px;
+          border-radius: 28px;
+        }
+        .card-content {
+          padding: 22px 20px 32px;
+          border-radius: 24px;
+        }
+        .cake-slot {
+          height: 124px;
+          margin: 12px auto 16px;
+        }
+        .cake-art {
+          width: 67px;
+        }
+        .sparkle.s1 {
+          left: 5%;
+        }
+        .sparkle.s2 {
+          right: 6%;
+        }
+        .sparkle.s3 {
+          left: 7%;
+        }
+        .sparkle.s4 {
+          right: 7%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <main class="page">
+      <span class="sparkle s1" aria-hidden="true">✦</span
+      ><span class="sparkle s2" aria-hidden="true">✧</span>
+      <span class="sparkle s3" aria-hidden="true">✧</span
+      ><span class="sparkle s4" aria-hidden="true">✦</span>
+      <section class="card" aria-labelledby="title">
+        <div class="card-content">
+          <h1 id="title">Happy Birthday<span>Vaidehi!</span></h1>
+          <p class="subtitle">
+            Wishing you a day filled with big smiles, your favorite people, and
+            all the little things that make you happiest.
+          </p>
+          <div class="cake-slot">
+            <img
+              class="cake-art"
+              src="./assets/birthday-cake-cutout.png"
+              alt="Vintage illustration of a birthday cake with a lit candle"
+            />
+          </div>
+          <div class="actions">
+            <button
+              class="primary"
+              id="songButton"
+              type="button"
+              aria-label="Play birthday song"
+            >
+              <span aria-hidden="true">▶</span>
+              <span id="buttonLabel">Play birthday song</span>
+            </button>
+            <button class="secondary" id="wishButton" type="button">
+              Make a wish ✨
+            </button>
+          </div>
+          <p class="note" id="status" aria-live="polite">
+            Your birthday soundtrack is ready 🎶
+          </p>
+        </div>
+      </section>
+      <footer>Made with a little extra birthday magic ✨</footer>
+    </main>
+    <script>
+      const canvas = document.querySelector("#confetti");
+      const ctx = canvas.getContext("2d");
+      let pieces = [],
+        frame,
+        wishConfettiActive = false;
+      const colors = [
+        "#f47c9b",
+        "#ffd56b",
+        "#9ed9c2",
+        "#bca8ed",
+        "#ff9d70",
+        "#85c4e8",
+      ];
+      function resize() {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = innerWidth * dpr;
+        canvas.height = innerHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      addEventListener("resize", resize);
+      resize();
+      function burst(amount = 150, isWish = false) {
+        amount = Math.min(amount, Math.max(0, 520 - pieces.length));
+        for (let i = 0; i < amount; i++)
+          pieces.push({
+            x: Math.random() * innerWidth,
+            y: -12 - Math.random() * innerHeight * 0.45,
+            vx: (Math.random() - 0.5) * 2,
+            vy: Math.random() * 1.2 + 1.4,
+            size: 5 + Math.random() * 8,
+            rot: Math.random() * 6,
+            spin: (Math.random() - 0.5) * 0.12,
+            color: colors[(Math.random() * colors.length) | 0],
+            isWish,
+          });
+        if (!frame) animate();
+      }
+      function animate() {
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        pieces = pieces.filter((p) => p.y < innerHeight + p.size);
+        if (wishConfettiActive && !pieces.some((p) => p.isWish))
+          wishConfettiActive = false;
+        for (const p of pieces) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.025;
+          p.vx *= 0.998;
+          p.rot += p.spin;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.65);
+          ctx.restore();
+        }
+        if (pieces.length) frame = requestAnimationFrame(animate);
+        else {
+          cancelAnimationFrame(frame);
+          frame = null;
+          ctx.clearRect(0, 0, innerWidth, innerHeight);
+        }
+      }
+      setTimeout(() => burst(100), 450);
+      document.querySelector("#wishButton").addEventListener("click", () => {
+        if (wishConfettiActive) return;
+        wishConfettiActive = true;
+        burst(420, true);
+        if (!pieces.some((p) => p.isWish)) wishConfettiActive = false;
+      });
+
+      // A bright, synthesized version of the familiar birthday melody; no audio file needed.
+      const melody = [
+        [392, 0.28],
+        [392, 0.28],
+        [440, 0.55],
+        [392, 0.55],
+        [523, 0.55],
+        [494, 1.05],
+        [392, 0.28],
+        [392, 0.28],
+        [440, 0.55],
+        [392, 0.55],
+        [587, 0.55],
+        [523, 1.05],
+        [392, 0.28],
+        [392, 0.28],
+        [784, 0.55],
+        [659, 0.55],
+        [523, 0.55],
+        [494, 0.55],
+        [440, 1.05],
+        [698, 0.28],
+        [698, 0.28],
+        [659, 0.55],
+        [523, 0.55],
+        [587, 0.55],
+        [523, 1.15],
+      ];
+      let audio,
+        playing = false,
+        timers = [];
+      const songButton = document.querySelector("#songButton"),
+        label = document.querySelector("#buttonLabel"),
+        status = document.querySelector("#status");
+      function stopSong() {
+        timers.forEach(clearTimeout);
+        timers = [];
+        playing = false;
+        label.textContent = "Play birthday song";
+        songButton.querySelector("[aria-hidden]").textContent = "▶";
+        status.textContent = "Your birthday soundtrack is ready 🎶";
+      }
+      songButton.addEventListener("click", async () => {
+        if (playing) {
+          stopSong();
+          return;
+        }
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) {
+          status.textContent =
+            "Audio playback is not supported in this browser.";
+          return;
+        }
+        audio = audio || new AudioContext();
+        await audio.resume();
+        playing = true;
+        label.textContent = "Stop the song";
+        songButton.querySelector("[aria-hidden]").textContent = "■";
+        status.textContent = "🎵 Happy birthday to you…";
+        burst(65);
+        let at = audio.currentTime + 0.08;
+        for (const [hz, beats] of melody) {
+          const duration = beats * 0.43,
+            osc = audio.createOscillator(),
+            gain = audio.createGain();
+          osc.type = "sine";
+          osc.frequency.value = hz;
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(0.17, at + 0.025);
+          gain.gain.setValueAtTime(0.17, at + duration * 0.72);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+          osc.connect(gain);
+          gain.connect(audio.destination);
+          osc.start(at);
+          osc.stop(at + duration + 0.02);
+          at += duration + 0.055;
+        }
+        timers.push(
+          setTimeout(stopSong, (at - audio.currentTime) * 1000 + 100),
+        );
+      });
+    </script>
+  </body>
+</html>
